@@ -1,4 +1,6 @@
 # chat-app
+[![Build Status](https://travis-ci.org/chat-sggw/app.svg?branch=master)](https://travis-ci.org/chat-sggw/app)
+[![Build status](https://ci.appveyor.com/api/projects/status/n43sjorssy73dfbn/branch/master?svg=true)](https://ci.appveyor.com/project/kacpak/app/branch/master)
 
 > Chat application with geolocation
 

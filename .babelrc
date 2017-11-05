@@ -1,0 +1,32 @@
+{
+  "env": {
+    "electron": {
+      "presets": [
+        ["env", {
+          "targets": { "node": 7 }
+        }]
+      ]
+    },
+    "renderer": {
+      "presets": [
+        ["env", {
+          "modules": false
+        }]
+      ]
+    },
+    "web": {
+      "presets": [
+        ["env", {
+          "modules": false,
+          "browsers": ["FF >= 34", "last 2 versions", "safari >= 7"]
+        }]
+      ]
+    }
+  },
+  "plugins": [
+    "transform-runtime",
+    "transform-object-rest-spread",
+    "syntax-dynamic-import",
+    ["transform-class-properties", { "spec": true }]
+  ]
+}

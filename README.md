@@ -7,8 +7,8 @@
 ### For developers
 
 #### Prerequisites
-* Node 8 LTS (carbon)
-* yarn v1.x.x
+* [Node](https://nodejs.org) 8 LTS (carbon)
+* [yarn](https://yarnpkg.com/lang/en/docs/install/) v1.x.x
 * IDE with [EditorConfig](http://editorconfig.org/) support
 * `yarn` to install project dependencies
 

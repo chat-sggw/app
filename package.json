@@ -18,6 +18,10 @@
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .build-scripts/webpack.renderer.config.js",
     "postinstall": "npm run lint:fix"
   },
+  "repository": { 
+    "type": "git",
+    "url": "https://github.com/chat-sggw/app.git"
+  },
   "build": {
     "productName": "SGGW Chat",
     "appId": "pl.sggw.chat",

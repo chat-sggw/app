@@ -16,6 +16,20 @@
         <v-card>
           <v-card-title>
             <div>
+              <div>User firstName: {{user}}</div>
+            </div>
+          </v-card-title>
+          <v-card-actions>
+            <v-btn flat color="orange" @click="() => SET_FIRSTNAME('trolololo')">change to trolololo</v-btn>
+            <v-btn flat color="orange" @click="() => SET_FIRSTNAME('trolololo2')">change to trolololo2</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+
+      <v-flex xs12 sm6 offset-sm3>
+        <v-card>
+          <v-card-title>
+            <div>
               <div>Counter: {{counter}}</div>
             </div>
           </v-card-title>
@@ -40,7 +54,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapMutations, mapActions } from 'vuex';
 
 export default {
   name: 'landing-page',
@@ -48,11 +62,17 @@ export default {
     datetime() {
       return this.$moment().format('YYYY-MM-DD hh:mm');
     },
+    user() {
+      return this.$store.state.User.firstName;
+    },
     counter() {
       return this.$store.state.Counter.main;
     }
   },
   methods: {
+    ...mapMutations([
+      'SET_FIRSTNAME'
+    ]),
     ...mapActions([
       'changeCounter'
     ])

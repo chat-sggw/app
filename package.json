@@ -18,7 +18,7 @@
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .build-scripts/webpack.renderer.config.js",
     "postinstall": "npm run lint:fix"
   },
-  "repository": { 
+  "repository": {
     "type": "git",
     "url": "https://github.com/chat-sggw/app.git"
   },
@@ -108,6 +108,8 @@
     "rimraf": "^2.6.2",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.0",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.1",
     "url-loader": "^0.6.2",
     "vue-html-loader": "^1.2.4",
     "vue-loader": "^13.0.5",

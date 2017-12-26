@@ -19,6 +19,9 @@ let webConfig = {
   entry: {
     web: path.join(__dirname, '../src/main/main.js')
   },
+  externals: {
+    electron: 'electron'
+  },
   module: {
     rules: [
       {
@@ -37,6 +40,16 @@ let webConfig = {
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: 'css-loader'
+        })
+      },
+      {
+        test: /\.styl$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            'css-loader',
+            'stylus-loader'
+          ]
         })
       },
       {

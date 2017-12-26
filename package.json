@@ -16,12 +16,16 @@
     "lint:fix": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter --fix src",
     "pack": "run-s clean pack:*",
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .build-scripts/webpack.electron.config.js",
-    "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .build-scripts/webpack.renderer.config.js",
-    "postinstall": "npm run lint:fix"
+    "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .build-scripts/webpack.renderer.config.js"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/chat-sggw/app.git"
+  },
+  "engines": {
+    "node": "8",
+    "npm": "5",
+    "yarn": "1"
   },
   "build": {
     "productName": "SGGW Chat",

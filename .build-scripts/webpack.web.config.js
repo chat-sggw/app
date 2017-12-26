@@ -101,16 +101,6 @@ let webConfig = {
   },
   plugins: [
     new ExtractTextPlugin('css/styles.[contenthash].css'),
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: path.resolve(__dirname, '../src/main/index.ejs'),
-      minify: {
-        collapseWhitespace: true,
-        removeAttributeQuotes: true,
-        removeComments: true
-      },
-      nodeModules: false
-    }),
     new webpack.DefinePlugin({
       'process.env.IS_WEB': 'true'
     }),
@@ -121,6 +111,16 @@ let webConfig = {
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'runtime'
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: path.resolve(__dirname, '../src/main/index.ejs'),
+      minify: {
+        collapseWhitespace: true,
+        removeAttributeQuotes: true,
+        removeComments: true
+      },
+      nodeModules: false
     })
   ],
   output: {
@@ -170,12 +170,6 @@ if (process.env.NODE_ENV === 'production') {
       }),
       new webpack.LoaderOptionsPlugin({
         minimize: true
-      }),
-      new WebpackMd5Hash(),
-      new ManifestPlugin(),
-      new ChunkManifestPlugin({
-        filename: "chunk-manifest.json",
-        manifestVariable: "webpackManifest"
       }),
       new webpack.optimize.OccurrenceOrderPlugin()
     ]

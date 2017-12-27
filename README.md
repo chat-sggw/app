@@ -21,3 +21,8 @@ PC
 * `yarn dev:pc` to build & run application in developer mode
 * `yarn build:pc` to build application to `./dist/electron`
 * `yarn pack` to generate installable executable in `./build`
+
+### Dyskusje
+* [app-devs](https://github.com/orgs/chat-sggw/teams/app-devs) - przydatne linki
+* Pull Request
+  * przy zmianie graficznej należy dodać zrzut ekranu w komentarzu i jako recenzenta dodać grupę `design`

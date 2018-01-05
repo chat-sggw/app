@@ -6,17 +6,26 @@
           Logged in :)
         </div>
         <v-btn color="primary" @click="logout">Testowe wylogowanie</v-btn>
+        <v-btn flat color="orange" @click="() => fetchContacts()">Pobierz kontakty</v-btn>
+        <v-btn flat color="orange" @click="() => fetchConversation()">Pobierz rozmowy</v-btn>
       </v-content>
     </main>
   </v-app>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   methods: {
     logout() {
       return this.$store.dispatch('logout');
-    }
+    },
+    ...mapActions([
+      'changeCounter',
+      'fetchContacts',
+      'fetchConversation'
+    ])
   }
 };
 </script>

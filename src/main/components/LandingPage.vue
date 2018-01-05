@@ -36,6 +36,8 @@
           <v-card-actions>
             <v-btn flat color="orange" @click="() => changeCounter(-1)">-1</v-btn>
             <v-btn flat color="orange" @click="() => changeCounter(1)">+1</v-btn>
+            <v-btn flat color="orange" @click="() => fetchContacts()">fetch contacts</v-btn>
+            <v-btn flat color="orange" @click="() => fetchConversation()">fetch conversation</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -74,7 +76,9 @@ export default {
       'SET_FIRSTNAME'
     ]),
     ...mapActions([
-      'changeCounter'
+      'changeCounter',
+      'fetchContacts',
+      'fetchConversation'
     ])
   }
 };

@@ -140,7 +140,7 @@ let webConfig = {
     bonjour: true,
     historyApiFallback: true,
     hot: true,
-    https: true,
+    https: false,
     open: true,
     overlay: true
   }

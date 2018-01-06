@@ -1,6 +1,11 @@
 <template>
   <div class="user-modal-container">
-    <v-form class="form-login">
+    <v-form class="form-login" ref="form">
+      <v-layout row v-if="error">
+        <v-flex>
+        <app-alert @dismissed="onDismissed" :text="error"></app-alert>
+        </v-flex>
+      </v-layout>
       <v-text-field label="Login"
                     v-model="username"
       ></v-text-field>
@@ -13,7 +18,7 @@
                   v-model="checkbox"
       ></v-checkbox>
       <v-flex class="text-xs-center">
-        <v-btn class="button-submit" color="accent" @click="login" :disabled="!valid">
+        <v-btn class="button-submit" color="accent" @click="login">
           Zaloguj
         </v-btn>
         <div>
@@ -28,20 +33,32 @@
 
 <script>
   export default {
-    data: () => ({
+    data: {
       valid: true,
       username: '',
       password: '',
       select: null,
       checkbox: false
-    }),
+    },
+    computed: {
+      error() {
+        return this.$store.getters.error;
+      }
+    },
     methods: {
       async login() {
-        await this.$store.dispatch('authenticate', { username: 'test', password: '1234' }); // Użyj danych z formularza
-        return this.$router.push({ name: 'main' });
+        const isUser = await this.$store.dispatch('authenticate', { username: this.username, password: this.password });
+
+        if (isUser) {
+          return this.$router.push({ name: 'main' });
+        }
+        return null;
       },
       signup() {
         return this.$router.push({ name: 'register' });
+      },
+      onDismissed() {
+        this.$store.commit('clearError');
       }
     }
   };
@@ -61,7 +78,7 @@
 
   .user-modal-container .form-login {
     align-items: center;
-    width: 55%;
+    /*width: 55%;*/
     max-width: 400px;
     margin: auto;
     position: relative;

@@ -32,7 +32,6 @@ install:
 script:
 - yarn run lint
 - yarn run build:web
-- yarn run build:pc
 deploy:
   provider: heroku
   app: chatsggw

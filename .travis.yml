@@ -33,3 +33,8 @@ script:
 - yarn run lint
 - yarn run build:web
 - yarn run build:pc
+deploy:
+  provider: heroku
+  app: chatsggw
+  api_key:
+    secure: "bf40941a-c3d4-4600-9ac1-e15d815790d1"

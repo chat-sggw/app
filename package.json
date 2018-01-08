@@ -6,7 +6,7 @@
   "license": null,
   "main": "./dist/electron/main.js",
   "scripts": {
-    "start": "http-server ./dist/web -p $PORT",
+    "start": "http-server ./dist/web -p process.env.PORT",
     "clean": "rimraf dist && cross-env BUILD_TARGET=clean node .build-scripts/build.js",
     "build:pc": "node .build-scripts/build.js && electron-builder",
     "build:web": "cross-env BUILD_TARGET=web node .build-scripts/build.js",

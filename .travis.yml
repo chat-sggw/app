@@ -26,6 +26,8 @@ install:
 script:
 - yarn run lint
 - yarn run build:web
+before_deploy:
+- cd dist/web/
 deploy:
   provider: heroku
   app: chatsggw

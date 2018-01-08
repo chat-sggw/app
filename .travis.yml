@@ -30,7 +30,7 @@ before_deploy:
 - cd dist/web/
 - touch index.php
 - echo '' > index.php
-- printf "<?php header( 'Location: /index.html' ) ;  ?>" > index.php
+- echo "<?php header( 'Location: /index.html' ) ;  ?>" > index.php
 deploy:
   provider: heroku
   app: chatsggw

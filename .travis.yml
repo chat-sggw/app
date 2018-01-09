@@ -28,10 +28,8 @@ script:
 - yarn run build:web
 before_deploy:
 {
+- cp src/* dist/web/
 - cd dist/web/
-- touch index.php
-- echo '' > index.php
-- printf "<?php header( 'Location: index.html' ) ;  ?>" > index.php
 }
 deploy:
   provider: heroku

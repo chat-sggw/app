@@ -28,7 +28,7 @@ script:
 - yarn run build:web
 before_deploy:
 {
-- cp src/* dist/web/
+- cp static/* dist/web/
 - cd dist/web/
 }
 deploy:

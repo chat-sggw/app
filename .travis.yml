@@ -27,10 +27,8 @@ script:
 - yarn run lint
 - yarn run build:web
 before_deploy:
-{
 - cp static/* dist/web/
 - cd dist/web/
-}
 deploy:
   provider: heroku
   app: chatsggw

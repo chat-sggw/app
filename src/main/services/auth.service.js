@@ -35,6 +35,24 @@ export async function login({ username, password }) {
   }
 }
 
+export function register({ username, password, email }) {
+  return axios.post(
+    `${apiUrl}/api/account/register`,
+    {
+      email,
+      password,
+      login: username
+    },
+    {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }
+  )
+    .then(response => response.data);
+}
+
 export function logout() {
   return axios.post(
     `${apiUrl}/api/account/logoff`,

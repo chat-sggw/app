@@ -8,43 +8,45 @@
         </v-flex>
       </v-layout>
 
-      <v-layout row  justify-space-around>
+      <v-layout row justify-space-around>
         <v-flex>
           <v-text-field
                   name="login"
                   label="Login"
                   id="login"
+                  v-model="username"
           />
         </v-flex>
       </v-layout>
 
-      <v-layout row  justify-space-around>
+      <v-layout row justify-space-around>
         <v-flex>
           <v-text-field
                   name="email"
                   label="E-mail"
+                  v-model="email"
           />
         </v-flex>
       </v-layout>
 
-      <v-layout row  justify-space-around>
+      <v-layout row justify-space-around>
         <v-flex>
           <v-text-field
                   name="input"
                   label="Hasło"
-                  hint="At least 8 characters"
+                  hint="Przynajmniej 6 znaków w tym znaki specjalne"
                   v-model="password"
-                  min="8"
-                  :append-icon="visibility ? 'visibility' : 'visibility_off'"
-                  :append-icon-cb="() => (visibility = !visibility)"
-                  :type="visibility ? 'password' : 'text'"
+                  min="6"
+                  :append-icon="hiddenPassword ? 'visibility' : 'visibility_off'"
+                  :append-icon-cb="() => (hiddenPassword = !hiddenPassword)"
+                  :type="hiddenPassword ? 'password' : 'text'"
                   counter
           />
         </v-flex>
       </v-layout >
 
       <v-flex class="text-xs-center">
-        <v-btn class="button-submit" color="accent" @click="register">
+        <v-btn class="button-submit" dark color="accent" @click="register">
           Zarejestruj
         </v-btn>
         <div>
@@ -67,7 +69,10 @@
     export default {
       data() {
         return {
-          visibility: false
+          hiddenPassword: true,
+          email: null,
+          username: null,
+          password: null
         };
       },
       computed: {
@@ -76,6 +81,15 @@
         }
       },
       methods: {
+        register() {
+          return this.$store.dispatch('register', {
+            username: this.username,
+            password: this.password,
+            email: this.email
+          })
+            .then(() => this.$router.push({ name: 'login' }))
+            .catch(e => console.error(e));
+        },
         signin() {
           return this.$router.push({ name: 'login' });
         },
@@ -107,21 +121,6 @@
     position: relative;
     padding: 25px 25px 25px 25px;
     cursor: initial;
-  }
-
-  .user-modal-container .form-register button {
-    text-transform: capitalize;
-  }
-
-  .user-modal-container .form-register .button-submit {
-    background-color: #0d47a1;
-    color: white;
-    width: auto;
-    height: auto;
-    min-width: 150px;
-    max-height: 30px;
-    min-height: 25px;
-    margin-bottom: 30px;
   }
 
 </style>

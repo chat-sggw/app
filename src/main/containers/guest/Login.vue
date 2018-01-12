@@ -3,22 +3,13 @@
     <v-form class="form-login" ref="form">
       <v-layout row v-if="error">
         <v-flex>
-        <app-alert @dismissed="onDismissed" :text="error"></app-alert>
+          <app-alert @dismissed="onDismissed" :text="error"></app-alert>
         </v-flex>
       </v-layout>
-      <v-text-field label="Login"
-                    v-model="username"
-      ></v-text-field>
-      <v-text-field label="Hasło"
-                    type="password"
-                    v-model="password"
-      ></v-text-field>
-      <v-checkbox
-                  label="Zapamiętaj mnie"
-                  v-model="checkbox"
-      ></v-checkbox>
+      <v-text-field label="Login" v-model="username"></v-text-field>
+      <v-text-field label="Hasło" type="password" v-model="password"></v-text-field>
       <v-flex class="text-xs-center">
-        <v-btn class="button-submit" color="accent" @click="login">
+        <v-btn class="button-submit" dark color="accent" @click="login">
           Zaloguj
         </v-btn>
         <div>
@@ -89,21 +80,6 @@
     position: relative;
     padding: 25px 25px 25px 25px;
     cursor: initial;
-  }
-
-  .user-modal-container .form-login button {
-    text-transform: capitalize;
-  }
-
-  .user-modal-container .form-login .button-submit {
-    background-color: #0d47a1;
-    color: white;
-    width: auto;
-    height: auto;
-    min-width: 150px;
-    max-height: 30px;
-    min-height: 25px;
-    margin-bottom: 30px;
   }
 
 </style>

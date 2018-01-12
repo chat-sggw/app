@@ -1,4 +1,4 @@
-import { login, logout } from '../../services/auth.service';
+import * as auth from '../../services/auth.service';
 import router from '../../router';
 
 const state = {
@@ -49,7 +49,7 @@ const actions = {
 
   async authenticate({ commit, dispatch }, { username, password }) {
     commit('CLEAR_AUTH_ERROR');
-    const tokenData = await login({ username, password });
+    const tokenData = await auth.login({ username, password });
 
     // commit('setError', 'Cause of error is...'); // take error from login by catch or return instead token
     commit('SET_TOKEN', tokenData);
@@ -59,8 +59,12 @@ const actions = {
   async logout({ commit }) {
     commit('SET_TOKEN', null);
     commit('SET_USER', {});
-    await logout();
+    await auth.logout();
     return router.push({ name: 'login' });
+  },
+
+  register(context, userData) {
+    return auth.register(userData);
   }
 };
 

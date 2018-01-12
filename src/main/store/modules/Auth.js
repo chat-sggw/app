@@ -1,49 +1,58 @@
-import { getUser, login } from '../../services/auth.service';
+import { login } from '../../services/auth.service';
 import router from '../../router';
 
 const state = {
-  token: null,
+  access_token: null,
+  expires_in: null,
+  token_type: null,
   error: null
 };
 
 const mutations = {
-  SET_TOKEN(state, token) {
-    state.token = token;
-    localStorage.setItem('authToken', token);
+  SET_TOKEN(state, tokenData) {
+    if (tokenData) {
+      state.access_token = tokenData.access_token;
+      state.expires_in = tokenData.expires_in;
+      state.token_type = tokenData.token_type;
+      localStorage.setItem('authToken', JSON.stringify(tokenData));
+    } else {
+      localStorage.removeItem('authToken');
+    }
   },
-  setError(state, errorText) {
+  SET_AUTH_ERROR(state, errorText) {
     state.error = errorText;
   },
-  clearError(state) {
+  CLEAR_AUTH_ERROR(state) {
     state.error = null;
   }
 };
 
 const actions = {
-  async reauthenticate({ commit, dispatch }, token = localStorage.getItem('authToken')) {
-    if (!token) {
+  async reauthenticate({ commit, dispatch }, tokenData = JSON.parse(localStorage.getItem('authToken'))) {
+    if (!tokenData) {
       return dispatch('logout');
     }
 
     try {
-      commit('SET_TOKEN', token);
-      const user = await getUser();
-      commit('SET_USER', user);
-      return user;
+      commit('SET_TOKEN', tokenData);
+      // const user = await getUser();
+      // commit('SET_USER', user);
+      // return user;
+      return true;
     } catch (e) {
-      commit('setError', e);
+      commit('SET_AUTH_ERROR', e);
       console.error(e);
       return dispatch('logout');
     }
   },
 
   async authenticate({ commit, dispatch }, { username, password }) {
-    commit('clearError');
-    const token = await login({ username, password });
+    commit('CLEAR_AUTH_ERROR');
+    const tokenData = await login({ username, password });
 
     // commit('setError', 'Cause of error is...'); // take error from login by catch or return instead token
-    commit('SET_TOKEN', token);
-    return dispatch('reauthenticate', token);
+    commit('SET_TOKEN', tokenData);
+    return dispatch('reauthenticate', tokenData);
   },
 
   logout({ commit }) {

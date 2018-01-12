@@ -1,20 +1,36 @@
+import axios from 'axios';
+import qs from 'qs';
 import store from '../store';
-
-const users = {
-  SPECJALNY_TOKEN: {
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'test@test.com',
-    avatar: '',
-    status: 'online'
-  }
-};
+import { apiUrl } from '../config';
 
 export function getUser() {
-  return Promise.resolve(users[store.state.Auth.token]);
+  return undefined;
 }
 
-export function login({ username, password }) {
-  console.log(username, password);
-  return 'SPECJALNY_TOKEN';
+export function getAuthorizationHeader() {
+  const { access_token, token_type } = store.state.Auth;
+  return `${token_type} ${access_token}`;
+}
+
+export async function login({ username, password }) {
+  try {
+    const response = await axios.post(
+      `${apiUrl}/token`,
+      qs.stringify({
+        username,
+        password,
+        grant_type: 'password'
+      }),
+      {
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded'
+        }
+      }
+    );
+
+    return response.data;
+  } catch (e) {
+    console.error(e);
+    return undefined;
+  }
 }

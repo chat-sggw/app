@@ -33,12 +33,14 @@
 
 <script>
   export default {
-    data: {
-      valid: true,
-      username: '',
-      password: '',
-      select: null,
-      checkbox: false
+    data() {
+      return {
+        valid: true,
+        username: '',
+        password: '',
+        select: null,
+        checkbox: false
+      };
     },
     computed: {
       error() {

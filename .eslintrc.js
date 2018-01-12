@@ -25,9 +25,10 @@ module.exports = {
     'no-multi-assign': 0,
     'comma-dangle': ['error', 'never'],
     'max-len': ['error', { 'code': 140, 'tabWidth': 2, 'ignoreComments': true }],
-    // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     'import/no-extraneous-dependencies': 0,
     'linebreak-style': 0,
+    'camelcase': 0,
+    'no-console': 0
   }
 }

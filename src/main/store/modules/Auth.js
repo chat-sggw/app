@@ -1,4 +1,4 @@
-import { login } from '../../services/auth.service';
+import { login, logout } from '../../services/auth.service';
 import router from '../../router';
 
 const state = {
@@ -38,6 +38,7 @@ const actions = {
       // const user = await getUser();
       // commit('SET_USER', user);
       // return user;
+      dispatch('fetchContacts');
       return true;
     } catch (e) {
       commit('SET_AUTH_ERROR', e);
@@ -55,10 +56,11 @@ const actions = {
     return dispatch('reauthenticate', tokenData);
   },
 
-  logout({ commit }) {
+  async logout({ commit }) {
     commit('SET_TOKEN', null);
     commit('SET_USER', {});
-    router.push({ name: 'login' });
+    await logout();
+    return router.push({ name: 'login' });
   }
 };
 

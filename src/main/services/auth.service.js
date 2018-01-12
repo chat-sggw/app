@@ -34,3 +34,15 @@ export async function login({ username, password }) {
     return undefined;
   }
 }
+
+export function logout() {
+  return axios.post(
+    `${apiUrl}/api/account/logoff`,
+    undefined,
+    {
+      headers: {
+        Authorization: getAuthorizationHeader()
+      }
+    }
+  );
+}

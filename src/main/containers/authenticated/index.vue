@@ -1,31 +1,20 @@
 <template>
   <v-app>
-    <main>
-      <v-content>
-        <div>
-          Logged in :)
-        </div>
-        <v-btn color="primary" @click="logout">Testowe wylogowanie</v-btn>
-        <v-btn flat color="orange" @click="() => fetchContacts()">Pobierz kontakty</v-btn>
-        <v-btn flat color="orange" @click="() => fetchConversation()">Pobierz rozmowy</v-btn>
-      </v-content>
+    <main class="app">
+      <UserSide class="user"></UserSide>
+      <MessageSide class="message"></MessageSide>
     </main>
   </v-app>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import UserSide from './UserSide';
+import MessageSide from './MessageSide';
 
 export default {
-  methods: {
-    logout() {
-      return this.$store.dispatch('logout');
-    },
-    ...mapActions([
-      'changeCounter',
-      'fetchContacts',
-      'fetchConversation'
-    ])
+  components: {
+    UserSide,
+    MessageSide
   }
 };
 </script>
@@ -36,5 +25,18 @@ export default {
     button {
       -webkit-app-region: no-drag;
     }
+  }
+
+  .app {
+    display: flex;
+    align-items: stretch;
+  }
+
+  .user {
+    width: 350px;
+  }
+
+  .message {
+    flex: 1;
   }
 </style>

@@ -66,38 +66,43 @@
 
 
 <script>
-    export default {
-      data() {
-        return {
-          hiddenPassword: true,
-          email: null,
-          username: null,
-          password: null
-        };
-      },
-      computed: {
-        error() {
-          return this.$store.getters.error;
-        }
-      },
-      methods: {
-        register() {
-          return this.$store.dispatch('register', {
-            username: this.username,
-            password: this.password,
-            email: this.email
-          })
-            .then(() => this.$router.push({ name: 'login' }))
-            .catch(e => console.error(e));
-        },
-        signin() {
-          return this.$router.push({ name: 'login' });
-        },
-        onDismissed() {
-          this.$store.commit('clearError');
-        }
-      }
+import ErrorAlert from '../../components/ErrorAlert';
+
+export default {
+  data() {
+    return {
+      hiddenPassword: true,
+      email: null,
+      username: null,
+      password: null
     };
+  },
+  computed: {
+    error() {
+      return this.$store.getters.error;
+    }
+  },
+  methods: {
+    register() {
+      return this.$store.dispatch('register', {
+        username: this.username,
+        password: this.password,
+        email: this.email
+      })
+        .then(() => this.$router.push({ name: 'login' }))
+        .catch(e => console.error(e));
+    },
+    signin() {
+      return this.$router.push({ name: 'login' });
+    },
+    onDismissed() {
+      this.$store.commit('clearError');
+    }
+  },
+  components: {
+    'app-alert': ErrorAlert
+  }
+};
 
 </script>
 

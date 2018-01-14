@@ -1,5 +1,7 @@
 /* eslint-disable prefer-destructuring */
-import { fetchContactsApi, fetchConversationApi } from '../../services/api.service';
+import Vue from 'vue';
+import { getContacts } from '../../services/user.service';
+import { getConversation, sendMessage } from '../../services/conversation.service';
 
 
 const state = {
@@ -9,7 +11,7 @@ const state = {
   avatar: '',
   status: '',
   contacts: [],
-  messages: []
+  conversations: {}
 };
 
 const mutations = {
@@ -44,14 +46,13 @@ const mutations = {
       state.contacts[foundIndex] = contact;
     }
   },
-  ADD_MESSAGE(state, message) {
-    state.messages.push(message);
-  },
-  UPDATE_MESSAGE(state, message) {
-    const foundIndex = state.messages.findIndex(i => i.id === message.id);
-    if (foundIndex >= 0) {
-      state.messages[foundIndex] = message;
+  ADD_CONVERSATION_HISTORY(state, { conversationId, history }) {
+    if (!state.conversations[conversationId]) {
+      Vue.set(state.conversations, conversationId, []);
     }
+    const newOnes = history.filter(current => state.conversations[conversationId].findIndex(old => old.id === current.id) === -1);
+    const updated = state.conversations[conversationId].concat(newOnes);
+    Vue.set(state.conversations, conversationId, updated);
   }
 };
 
@@ -60,7 +61,7 @@ const actions = {
     commit('SET_FIRSTNAME', text);
   },
   fetchContacts({ commit, state }) {
-    fetchContactsApi()
+    return getContacts()
       .then((response) => {
         response.data.forEach((contact) => {
           if (!state.contacts.find(knownContact => knownContact.conversationId === contact.conversationId)) {
@@ -71,25 +72,33 @@ const actions = {
         });
       });
   },
-  fetchConversation({ commit, state }, conversationId) {
-    if (state.contacts[0].conversationId) {
-      conversationId = state.contacts[0].conversationId; // testowo - ustawia na konwersacje z pierwszym znajomym, najpierw trzeba pobrac znajomych
-    }
-    fetchConversationApi(conversationId)
-      .then((response) => {
-        response.data.forEach((message) => {
-          if (!state.messages.find(i => i.id === message.id)) {
-            commit('ADD_MESSAGE', message);
-          } else {
-            commit('UPDATE_MESSAGE', message);
-          }
-        });
+  fetchConversation({ commit }, { conversationId, afterMessageId }) {
+    return getConversation(conversationId, afterMessageId)
+      .then((history) => {
+        commit('ADD_CONVERSATION_HISTORY', { conversationId, history });
       });
+  },
+  sendMessage({ state, dispatch }, { conversationId, text }) {
+    return sendMessage(conversationId, text)
+      .then(() => {
+        const afterMessageId = state.conversations[conversationId].slice(-1).pop().id;
+        dispatch('fetchConversation', { conversationId, afterMessageId });
+      });
+  }
+};
+
+const getters = {
+  getConversationById: state => (id) => {
+    if (state.conversations[id]) {
+      return state.conversations[id];
+    }
+    return [];
   }
 };
 
 export default {
   state,
   mutations,
-  actions
+  actions,
+  getters
 };

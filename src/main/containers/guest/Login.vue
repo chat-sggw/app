@@ -25,39 +25,43 @@
 
 
 <script>
-  export default {
-    data() {
-      return {
-        valid: true,
-        username: '',
-        password: '',
-        select: null,
-        checkbox: false
-      };
-    },
-    computed: {
-      error() {
-        return this.$store.getters.error;
-      }
-    },
-    methods: {
-      async login() {
-        const isUser = await this.$store.dispatch('authenticate', { username: this.username, password: this.password });
+import ErrorAlert from '../../components/ErrorAlert';
 
-        if (isUser) {
-          return this.$router.push({ name: 'main' });
-        }
-        return null;
-      },
-      signup() {
-        return this.$router.push({ name: 'register' });
-      },
-      onDismissed() {
-        this.$store.commit('clearError');
-      }
+export default {
+  data() {
+    return {
+      valid: true,
+      username: 'Test1',
+      password: '1qaz@WSX',
+      select: null,
+      checkbox: false
+    };
+  },
+  computed: {
+    error() {
+      return this.$store.getters.error;
     }
-  };
+  },
+  methods: {
+    async login() {
+      const isUser = await this.$store.dispatch('authenticate', { username: this.username, password: this.password });
 
+      if (isUser) {
+        return this.$router.push({ name: 'main' });
+      }
+      return null;
+    },
+    signup() {
+      return this.$router.push({ name: 'register' });
+    },
+    onDismissed() {
+      this.$store.commit('clearError');
+    }
+  },
+  components: {
+    'app-alert': ErrorAlert
+  }
+};
 </script>
 
 <style lang="scss" scoped>

@@ -31,21 +31,21 @@
     </v-list>
   </div>
 
-  <v-card>
-    <v-bottom-nav absolute :value="true" :active.sync="activeList" color="transparent">
-      <v-btn flat value="recent">
+  <v-card tile>
+    <v-bottom-nav absolute :value="true" :active.sync="activeList" color="primary">
+      <v-btn flat dark value="recent">
         <span>Ostatnie</span>
         <v-icon>history</v-icon>
       </v-btn>
-      <v-btn flat value="favorites">
+      <v-btn flat dark value="favorites">
         <span>Znajomi</span>
         <v-icon>person</v-icon>
       </v-btn>
-      <v-btn flat value="groups">
+      <v-btn flat dark value="groups">
         <span>Grupy</span>
         <v-icon>group</v-icon>
       </v-btn>
-      <v-btn flat value="nearby">
+      <v-btn flat dark value="nearby">
         <span>W pobliżu</span>
         <v-icon>place</v-icon>
       </v-btn>
@@ -58,8 +58,7 @@
 export default {
   data() {
     return {
-      activeList: 'recent',
-      conversation: null
+      activeList: 'recent'
     };
   },
   computed: {
@@ -72,7 +71,7 @@ export default {
       return this.$store.dispatch('logout');
     },
     selectConversation(conversationId) {
-      this.conversation = { conversationId };
+      this.$router.push({ name: 'main', query: { conversationId } });
     }
   }
 };
@@ -91,6 +90,10 @@ export default {
 .friends-list {
   flex: 1;
   background: white;
+}
+
+.bottom-nav {
+  box-shadow: 0 !important;
 }
 </style>
 

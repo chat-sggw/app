@@ -27,6 +27,7 @@ module.exports = {
     'max-len': ['error', { 'code': 140, 'tabWidth': 2, 'ignoreComments': true }],
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     'import/no-extraneous-dependencies': 0,
+    'import/prefer-default-export': 0,
     'linebreak-style': 0,
     'camelcase': 0,
     'no-console': 0

@@ -37,16 +37,6 @@ const router = new Router({
       ]
     },
     {
-      path: '/landing',
-      name: 'landing-page',
-      component: () => import(/* webpackChunkName: "LandingPage" */ '@/components/LandingPage')
-    },
-    {
-      path: '/other',
-      name: 'other-page',
-      component: () => import(/* webpackChunkName: "OtherPage" */ '@/components/OtherPage')
-    },
-    {
       path: '*',
       redirect: '/'
     }

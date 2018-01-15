@@ -19,6 +19,9 @@ let webConfig = {
   entry: {
     web: path.join(__dirname, '../src/main/main.js')
   },
+  externals: {
+    electron: 'electron'
+  },
   module: {
     rules: [
       {
@@ -37,6 +40,16 @@ let webConfig = {
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: 'css-loader'
+        })
+      },
+      {
+        test: /\.styl$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            'css-loader',
+            'stylus-loader'
+          ]
         })
       },
       {
@@ -88,16 +101,6 @@ let webConfig = {
   },
   plugins: [
     new ExtractTextPlugin('css/styles.[contenthash].css'),
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: path.resolve(__dirname, '../src/main/index.ejs'),
-      minify: {
-        collapseWhitespace: true,
-        removeAttributeQuotes: true,
-        removeComments: true
-      },
-      nodeModules: false
-    }),
     new webpack.DefinePlugin({
       'process.env.IS_WEB': 'true'
     }),
@@ -108,6 +111,16 @@ let webConfig = {
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'runtime'
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: path.resolve(__dirname, '../src/main/index.ejs'),
+      minify: {
+        collapseWhitespace: true,
+        removeAttributeQuotes: true,
+        removeComments: true
+      },
+      nodeModules: false
     })
   ],
   output: {
@@ -127,7 +140,7 @@ let webConfig = {
     bonjour: true,
     historyApiFallback: true,
     hot: true,
-    https: true,
+    https: false,
     open: true,
     overlay: true
   }
@@ -157,12 +170,6 @@ if (process.env.NODE_ENV === 'production') {
       }),
       new webpack.LoaderOptionsPlugin({
         minimize: true
-      }),
-      new WebpackMd5Hash(),
-      new ManifestPlugin(),
-      new ChunkManifestPlugin({
-        filename: "chunk-manifest.json",
-        manifestVariable: "webpackManifest"
       }),
       new webpack.optimize.OccurrenceOrderPlugin()
     ]

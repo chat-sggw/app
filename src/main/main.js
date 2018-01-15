@@ -2,7 +2,6 @@ import Vue from 'vue';
 import axios from 'axios';
 
 import Vuetify from 'vuetify';
-import 'vuetify/dist/vuetify.css';
 import 'mdi/css/materialdesignicons.css';
 
 import moment from 'moment';

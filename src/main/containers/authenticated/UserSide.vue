@@ -6,6 +6,9 @@
         <v-icon>settings</v-icon>
       </v-btn>
       <v-list>
+        <v-list-tile>
+          <v-list-tile-title>{{ username }}</v-list-tile-title>
+        </v-list-tile>
         <v-list-tile @click="logout">
           <v-list-tile-title>Wyloguj</v-list-tile-title>
         </v-list-tile>
@@ -64,6 +67,9 @@ export default {
   computed: {
     friends() {
       return this.$store.state.User.contacts;
+    },
+    username() {
+      return this.$store.state.Auth.userName;
     }
   },
   methods: {

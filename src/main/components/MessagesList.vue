@@ -26,7 +26,7 @@ export default {
   props: ['messages'],
   methods: {
     isMine(authorId) {
-      return authorId;
+      return this.$store.getters.isMe(authorId);
     }
   }
 };

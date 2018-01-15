@@ -10,8 +10,15 @@
 <script>
 import UserSide from './UserSide';
 import MessageSide from './MessageSide';
+import * as backgroundService from '../../services/background.service';
 
 export default {
+  created() {
+    backgroundService.init();
+  },
+  destroyed() {
+    backgroundService.stop();
+  },
   components: {
     UserSide,
     MessageSide

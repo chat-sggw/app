@@ -3,40 +3,13 @@ import Vue from 'vue';
 import { getContacts } from '../../services/user.service';
 import { getConversation, sendMessage } from '../../services/conversation.service';
 
-
 const state = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  avatar: '',
-  status: '',
   contacts: [],
-  conversations: {}
+  conversations: {},
+  position: null
 };
 
 const mutations = {
-  SET_FIRSTNAME(state, firstName) {
-    state.firstName = firstName;
-  },
-  SET_LASTNAME(state, lastName) {
-    state.lastName = lastName;
-  },
-  SET_EMAIL(state, email) {
-    state.email = email;
-  },
-  SET_AVATAR(state, avatar) {
-    state.avatar = avatar;
-  },
-  SET_STATUS(state, status) {
-    state.status = status;
-  },
-  SET_USER(state, user) {
-    state.firstName = user.firstName;
-    state.lastName = user.lastName;
-    state.email = user.email;
-    state.avatar = user.avatar;
-    state.status = user.status;
-  },
   ADD_CONTACT(state, contact) {
     state.contacts.push(contact);
   },
@@ -53,13 +26,13 @@ const mutations = {
     const newOnes = history.filter(current => state.conversations[conversationId].findIndex(old => old.id === current.id) === -1);
     const updated = state.conversations[conversationId].concat(newOnes);
     Vue.set(state.conversations, conversationId, updated);
+  },
+  SET_LOCATION(state, position) {
+    state.position = position;
   }
 };
 
 const actions = {
-  changeUsername({ commit }, text) {
-    commit('SET_FIRSTNAME', text);
-  },
   fetchContacts({ commit, state }) {
     return getContacts()
       .then((response) => {

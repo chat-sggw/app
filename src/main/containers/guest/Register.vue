@@ -34,9 +34,9 @@
           <v-text-field
                   name="input"
                   label="Hasło"
-                  hint="Przynajmniej 6 znaków w tym znaki specjalne"
+                  hint="Przynajmniej 8 znaków w tym wielkie liter, cyfry i znaki specjalne"
                   v-model="password"
-                  min="6"
+                  min="8"
                   :append-icon="hiddenPassword ? 'visibility' : 'visibility_off'"
                   :append-icon-cb="() => (hiddenPassword = !hiddenPassword)"
                   :type="hiddenPassword ? 'password' : 'text'"

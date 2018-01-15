@@ -1,11 +1,14 @@
 import * as auth from '../../services/auth.service';
+import { search } from '../../services/user.service';
 import router from '../../router';
 
 const state = {
   access_token: null,
   expires_in: null,
   token_type: null,
-  error: null
+  error: null,
+  userName: null,
+  userId: null
 };
 
 const mutations = {
@@ -14,6 +17,7 @@ const mutations = {
       state.access_token = tokenData.access_token;
       state.expires_in = tokenData.expires_in;
       state.token_type = tokenData.token_type;
+      state.userName = tokenData.userName;
       localStorage.setItem('authToken', JSON.stringify(tokenData));
     } else {
       localStorage.removeItem('authToken');
@@ -24,6 +28,9 @@ const mutations = {
   },
   CLEAR_AUTH_ERROR(state) {
     state.error = null;
+  },
+  SET_USER(state, userId) {
+    state.userId = userId;
   }
 };
 
@@ -35,10 +42,11 @@ const actions = {
 
     try {
       commit('SET_TOKEN', tokenData);
-      // const user = await getUser();
-      // commit('SET_USER', user);
-      // return user;
-      dispatch('fetchContacts');
+
+      const users = await search(state.userName);
+      commit('SET_USER', users[0].id);
+
+      await dispatch('fetchContacts');
       return true;
     } catch (e) {
       commit('SET_AUTH_ERROR', e);
@@ -69,8 +77,9 @@ const actions = {
 };
 
 const getters = {
-  isAuthenticated(state, _, rootState) {
-    return state.token && rootState.User.email;
+  isMe: state => userId => userId === state.userId,
+  isAuthenticated(state) {
+    return state.access_token && state.userId;
   },
   error() {
     return state.error;

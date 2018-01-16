@@ -12,9 +12,11 @@ export default new Vuex.Store({
 
 
   state: {
-    access_token: null,
-    expires_in: null,
-    token_type: null,
+    token: {
+      access_token: null,
+      expires_in: null,
+      token_type: null
+    },
     error: null,
     userName: null,
     userId: null,
@@ -51,9 +53,9 @@ export default new Vuex.Store({
     },
     SET_TOKEN(state, tokenData) {
       if (tokenData) {
-        state.access_token = tokenData.access_token;
-        state.expires_in = tokenData.expires_in;
-        state.token_type = tokenData.token_type;
+        state.token.access_token = tokenData.access_token;
+        state.token.expires_in = tokenData.expires_in;
+        state.token.token_type = tokenData.token_type;
         state.userName = tokenData.userName;
         localStorage.setItem('authToken', JSON.stringify(tokenData));
       } else {

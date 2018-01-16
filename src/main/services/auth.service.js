@@ -8,7 +8,7 @@ export function getUser() {
 }
 
 export function getAuthorizationHeader() {
-  const { access_token, token_type } = store.state;
+  const { access_token, token_type } = store.state.token;
   return `${token_type} ${access_token}`;
 }
 

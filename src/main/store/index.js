@@ -146,7 +146,8 @@ export default new Vuex.Store({
         commit('SET_TOKEN', tokenData);
 
         const users = await search(state.userName);
-        commit('SET_USER', users[0].id);
+        const user = users.find(user => user.userName === state.userName);
+        commit('SET_USER', user.id);
 
         await dispatch('fetchContacts');
         return true;

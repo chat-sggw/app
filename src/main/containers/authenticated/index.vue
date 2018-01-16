@@ -2,7 +2,12 @@
   <v-app>
     <main class="app">
       <UserSide class="user"></UserSide>
-      <MessageSide class="message"></MessageSide>
+      <MessageSide v-if="$route.query.conversationId" class="message"></MessageSide>
+      <div v-else class="message">
+        <v-toolbar dark color="primary">
+          <v-toolbar-title>Wybierz konwersację</v-toolbar-title>
+        </v-toolbar>
+      </div>
     </main>
   </v-app>
 </template>
@@ -10,14 +15,19 @@
 <script>
 import UserSide from './UserSide';
 import MessageSide from './MessageSide';
-import * as backgroundService from '../../services/background.service';
 
 export default {
+  data() {
+    return {
+      geoLocationGetterIntervalId: null
+    };
+  },
   created() {
-    backgroundService.init();
+    this.$store.dispatch('fetchLocation');
+    this.geoLocationGetterIntervalId = window.setInterval(() => this.$store.dispatch('fetchLocation'), 10000);
   },
   destroyed() {
-    backgroundService.stop();
+    window.clearInterval(this.geoLocationGetterIntervalId);
   },
   components: {
     UserSide,

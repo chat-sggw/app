@@ -66,10 +66,10 @@ export default {
   },
   computed: {
     friends() {
-      return this.$store.state.User.contacts;
+      return this.$store.state.contacts;
     },
     username() {
-      return this.$store.state.Auth.userName;
+      return this.$store.state.userName;
     }
   },
   methods: {

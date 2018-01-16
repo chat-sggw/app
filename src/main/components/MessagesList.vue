@@ -4,16 +4,22 @@
   style="min-height: 0;"
   grid-list-lg
 >
-  <v-layout row wrap>
-    <v-flex xs12 v-for="message of messages" v-bind:key="message.id" :message="message">
+  <v-layout column wrap>
+    <v-flex v-for="message of messages" v-bind:key="message.id" :message="message" :style="{ 'align-self': isMine(message.authorId) ? 'flex-end' : 'flex-start' }">
       <v-card v-if="isMine(message.authorId)" color="primary" class="white--text">
-        <v-card-title>
-          {{ message.text }}
+        <v-card-title class="text-xs-right">
+          <div>
+            <div>{{ message.text }}</div>
+            <div class="grey--text text--lighten-2">{{ message.sendDateTime }}</div>
+          </div>
         </v-card-title>
       </v-card>
       <v-card v-else color="grey lighten-2">
         <v-card-title>
-          {{ message.text }}
+          <div>
+            <div>{{ message.text }}</div>
+            <div class="grey--text">{{ message.sendDateTime }}</div>
+          </div>
         </v-card-title>
       </v-card>
     </v-flex>

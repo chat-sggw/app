@@ -32,6 +32,7 @@ export function search(query) {
 export function ping(longitude, latitude) {
   return axios.post(
     `${apiUrl}/api/user/ping`,
+    {},
     {
       headers: {
         Authorization: getAuthorizationHeader(),

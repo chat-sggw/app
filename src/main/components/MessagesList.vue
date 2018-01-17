@@ -10,7 +10,7 @@
         <v-card-title class="text-xs-right">
           <div>
             <div>{{ message.text }}</div>
-            <div class="grey--text text--lighten-2">{{ message.sendDateTime }}</div>
+            <div class="grey--text text--lighten-2">{{ formatDate(message.sendDateTime) }}</div>
           </div>
         </v-card-title>
       </v-card>
@@ -18,7 +18,7 @@
         <v-card-title>
           <div>
             <div>{{ message.text }}</div>
-            <div class="grey--text">{{ message.sendDateTime }}</div>
+            <div class="grey--text">{{ formatDate(message.sendDateTime) }}</div>
           </div>
         </v-card-title>
       </v-card>
@@ -28,11 +28,16 @@
 </template>
 
 <script>
+import * as moment from 'moment';
+
 export default {
   props: ['messages'],
   methods: {
     isMine(authorId) {
       return this.$store.getters.isMe(authorId);
+    },
+    formatDate(dateString) {
+      return moment(dateString).format('DD-MM-YYYY H:mm');
     }
   }
 };

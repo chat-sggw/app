@@ -35,3 +35,18 @@ export function sendMessage(conversationId, text) {
   )
     .then(response => response.data);
 }
+
+export function createGroupConversation(friendIds) {
+  return axios.post(
+    `${apiUrl}/api/conversation/create`,
+    JSON.stringify(friendIds),
+    {
+      headers: {
+        Authorization: getAuthorizationHeader(),
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }
+  )
+    .then(response => response.data);
+}

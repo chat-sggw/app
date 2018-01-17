@@ -10,7 +10,8 @@ export function getContacts() {
         Authorization: getAuthorizationHeader()
       }
     }
-  );
+  )
+    .then(response => response.data);
 }
 
 export function search(query) {

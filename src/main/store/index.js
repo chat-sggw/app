@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { getContacts, search, ping } from '../services/user.service';
+import { getContacts, ping } from '../services/user.service';
 import { getConversation, sendMessage } from '../services/conversation.service';
 import * as auth from '../services/auth.service';
 import router from '../router';
@@ -27,14 +27,11 @@ export default new Vuex.Store({
 
 
   mutations: {
-    ADD_CONTACT(state, contact) {
-      state.contacts.push(contact);
+    SET_CONTACTS(state, contacts) {
+      state.contacts = contacts;
     },
-    UPDATE_CONTACT(state, contact) {
-      const foundIndex = state.contacts.findIndex(knownContact => knownContact.conversationId === contact.conversationId);
-      if (foundIndex >= 0) {
-        state.contacts[foundIndex] = contact;
-      }
+    CLEAR_CONVERSATIONS(state) {
+      state.conversations = {};
     },
     ADD_CONVERSATION_HISTORY(state, { conversationId, history }) {
       if (!state.conversations[conversationId]) {
@@ -57,8 +54,12 @@ export default new Vuex.Store({
         state.token.expires_in = tokenData.expires_in;
         state.token.token_type = tokenData.token_type;
         state.userName = tokenData.userName;
+        state.userId = tokenData.userId;
         localStorage.setItem('authToken', JSON.stringify(tokenData));
       } else {
+        state.token = {};
+        state.userName = null;
+        state.userId = null;
         localStorage.removeItem('authToken');
       }
     },
@@ -67,9 +68,6 @@ export default new Vuex.Store({
     },
     CLEAR_AUTH_ERROR(state) {
       state.error = null;
-    },
-    SET_USER(state, userId) {
-      state.userId = userId;
     }
   },
 
@@ -83,7 +81,7 @@ export default new Vuex.Store({
     },
     isMe: state => userId => userId === state.userId,
     isAuthenticated(state) {
-      return state.access_token && state.userId;
+      return !!(state.token.access_token && state.userId);
     },
     error(state) {
       return state.error;
@@ -92,17 +90,9 @@ export default new Vuex.Store({
 
 
   actions: {
-    fetchContacts({ commit, state }) {
+    fetchContacts({ commit }) {
       return getContacts()
-        .then((response) => {
-          response.data.forEach((contact) => {
-            if (!state.contacts.find(knownContact => knownContact.conversationId === contact.conversationId)) {
-              commit('ADD_CONTACT', contact);
-            } else {
-              commit('UPDATE_CONTACT', contact);
-            }
-          });
-        });
+        .then(contacts => commit('SET_CONTACTS', contacts));
     },
 
     fetchConversation({ commit }, { conversationId, afterMessageId }) {
@@ -137,18 +127,13 @@ export default new Vuex.Store({
       return ping(state.location.longitude, state.location.latitude);
     },
 
-    async reauthenticate({ commit, dispatch, state }, tokenData = JSON.parse(localStorage.getItem('authToken'))) {
+    async reauthenticate({ commit, dispatch }, tokenData = JSON.parse(localStorage.getItem('authToken'))) {
       if (!tokenData) {
         return dispatch('logout');
       }
 
       try {
         commit('SET_TOKEN', tokenData);
-
-        const users = await search(state.userName);
-        const user = users.find(user => user.userName === state.userName);
-        commit('SET_USER', user.id);
-
         await dispatch('fetchContacts');
         return true;
       } catch (e) {
@@ -169,7 +154,9 @@ export default new Vuex.Store({
 
     async logout({ commit }) {
       commit('SET_TOKEN', null);
-      commit('SET_USER', {});
+      commit('SET_LOCATION', {});
+      commit('SET_CONTACTS', []);
+      commit('CLEAR_CONVERSATIONS');
       await auth.logout();
       return router.push({ name: 'login' });
     },

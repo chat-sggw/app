@@ -19,7 +19,7 @@ export default {
     };
   },
   created() {
-    this.conversationId = this.$route.query.conversationId;
+    this.conversationId = this.$route.params.id;
     this.fetchConversations();
   },
   computed: {
@@ -29,7 +29,7 @@ export default {
   },
   watch: {
     $route(to) {
-      this.conversationId = to.query.conversationId;
+      this.conversationId = to.params.id;
       this.fetchConversations();
     }
   },

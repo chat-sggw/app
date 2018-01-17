@@ -2,7 +2,7 @@
   <v-app>
     <main class="app">
       <UserSide class="user"></UserSide>
-      <MessageSide v-if="$route.query.conversationId" class="message"></MessageSide>
+      <MessageSide v-if="$route.params.id" class="message"></MessageSide>
       <div v-else class="message">
         <v-toolbar dark color="primary">
           <v-toolbar-title>Wybierz konwersację</v-toolbar-title>

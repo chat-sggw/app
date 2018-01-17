@@ -23,7 +23,7 @@
   <div class="friends-list">
     <v-list subheader>
       <v-subheader>{{ conversationGroupTitle }}</v-subheader>
-      <v-list-tile avatar v-for="friend in conversations" v-bind:key="friend.friendId" @click="() => selectConversation(friend.conversationId)">
+      <v-list-tile avatar v-for="friend in conversations" v-bind:key="friend.friendId" :to="{ name: 'conversation', params: { id: friend.conversationId } }">
         <v-list-tile-avatar>
           <img v-bind:src="friend.avatar"/>
         </v-list-tile-avatar>
@@ -87,9 +87,6 @@ export default {
   methods: {
     logout() {
       return this.$store.dispatch('logout');
-    },
-    selectConversation(conversationId) {
-      this.$router.push({ name: 'main', query: { conversationId } });
     }
   }
 };

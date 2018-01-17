@@ -14,7 +14,13 @@ const router = new Router({
       path: '/',
       name: 'main',
       meta: { requiresAuth: true },
-      component: AuthenticatedContainer
+      component: AuthenticatedContainer,
+      children: [
+        {
+          path: 'conversation/:id',
+          name: 'conversation'
+        }
+      ]
     },
     {
       path: '/auth',

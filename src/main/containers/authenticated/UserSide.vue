@@ -22,8 +22,8 @@
 
   <div class="friends-list">
     <v-list subheader>
-      <v-subheader>Znajomi</v-subheader>
-      <v-list-tile avatar v-for="friend in friends" v-bind:key="friend.friendId" @click="() => selectConversation(friend.conversationId)">
+      <v-subheader>{{ conversationGroupTitle }}</v-subheader>
+      <v-list-tile avatar v-for="friend in conversations" v-bind:key="friend.friendId" @click="() => selectConversation(friend.conversationId)">
         <v-list-tile-avatar>
           <img v-bind:src="friend.avatar"/>
         </v-list-tile-avatar>
@@ -40,7 +40,7 @@
         <span>Ostatnie</span>
         <v-icon>history</v-icon>
       </v-btn>
-      <v-btn flat dark value="favorites">
+      <v-btn flat dark value="friends">
         <span>Znajomi</span>
         <v-icon>person</v-icon>
       </v-btn>
@@ -61,12 +61,24 @@
 export default {
   data() {
     return {
-      activeList: 'recent'
+      activeList: 'friends'
     };
   },
   computed: {
-    friends() {
-      return this.$store.state.contacts;
+    conversationGroupTitle() {
+      switch (this.activeList) {
+        case 'recent': return 'Ostatnie konwersacje';
+        case 'friends': return 'Znajomi';
+        case 'groups': return 'Konwersacje grupowe';
+        case 'nearby': return 'Osoby w zasięgu';
+        default: return '';
+      }
+    },
+    conversations() {
+      if (this.activeList === 'friends') {
+        return this.$store.state.contacts;
+      }
+      return [];
     },
     username() {
       return this.$store.state.userName;

@@ -15,12 +15,17 @@ import SendMessage from '../../components/SendMessage';
 export default {
   data() {
     return {
-      conversationId: null
+      conversationId: null,
+      fetchIntervalId: null
     };
   },
   created() {
     this.conversationId = this.$route.params.id;
     this.fetchConversations();
+    this.fetchIntervalId = window.setInterval(() => this.fetchConversations(), 2000);
+  },
+  destroyed() {
+    window.clearInterval(this.fetchIntervalId);
   },
   computed: {
     messages() {
